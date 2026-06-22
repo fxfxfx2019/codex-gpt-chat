@@ -1,0 +1,4 @@
+interface:
+  display_name: "GPT-CHAT"
+  short_description: "Ask GPT-CHAT with normal context in its own window."
+  default_prompt: "Use $gpt-chat to analyze this problem with normal ChatGPT context, then let Codex verify and execute."

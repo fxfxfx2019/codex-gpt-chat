@@ -1,0 +1,7 @@
+node_modules/
+.runtime/
+.chatgpt-browser-profile/
+.chatgpt-browser-profile-temp/
+*.log
+.DS_Store
+Thumbs.db

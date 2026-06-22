@@ -1,0 +1,4 @@
+interface:
+  display_name: "GPT-CHAT-TEMP"
+  short_description: "Ask GPT-CHAT temporary mode in its own window."
+  default_prompt: "Use $gpt-chat-temp for isolated GPT analysis, then let Codex verify and execute."
