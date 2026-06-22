@@ -83,6 +83,8 @@ Set the service directory:
 Set-Item Env:GPT_CHAT_HOME "C:\path\to\gpt-chat-service"
 ```
 
+On Windows, already-running Codex processes may not inherit newly written user-level environment variables. The script actively reads the user-level `GPT_CHAT_HOME`, so restarting Codex is usually not required after setting it.
+
 Or pass it per invocation:
 
 ```powershell

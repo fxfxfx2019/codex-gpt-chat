@@ -88,6 +88,8 @@ https://github.com/fxfxfx2019/codex-gpt-chat/tree/main/skills/gpt-chat-temp
 Set-Item Env:GPT_CHAT_HOME "C:\path\to\gpt-chat-service"
 ```
 
+Windows 下，如果 `GPT_CHAT_HOME` 写入的是用户级环境变量，已经打开的 Codex 进程可能不会自动继承。脚本会主动读取用户级 `GPT_CHAT_HOME`，所以设置后通常不需要重启 Codex。
+
 也可以在运行脚本时传入：
 
 ```powershell

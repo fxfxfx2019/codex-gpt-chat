@@ -3,17 +3,45 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 
-const DEFAULT_SERVICE_ROOT = process.env.GPT_CHAT_HOME ||
-  process.env.GPT_CHAT_SERVICE_ROOT ||
-  '';
+const DEFAULT_SERVICE_ROOT = configuredServiceRoot();
 const DEFAULT_TOKEN = 'change-me';
 const DEFAULT_SESSION = 'gpt-chat-skill';
 const DEFAULT_INSTANCE = 'gpt-chat';
 const BRIEF_PREFIX = '\u8bf7\u7b80\u6d01\u56de\u7b54\uff0c\u76f4\u63a5\u7ed9\u7ed3\u8bba\u548c\u5173\u952e\u7406\u7531\uff0c\u4e0d\u8981\u5bd2\u6684\u3002';
 const OUTPUT_PREFIX = 'gpt\u56de\u590d\uff1a\u201c';
 const OUTPUT_SUFFIX = '\u201d';
+
+function readWindowsUserEnv(name) {
+  if (process.platform !== 'win32') return '';
+  try {
+    const powershell = path.join(process.env.SystemRoot || process.env.WINDIR || 'C:\\Windows', 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
+    const safeName = String(name).replace(/'/g, "''");
+    const output = execFileSync(powershell, [
+      '-NoProfile',
+      '-ExecutionPolicy',
+      'Bypass',
+      '-Command',
+      `[Console]::OutputEncoding=[System.Text.Encoding]::UTF8; [Environment]::GetEnvironmentVariable('${safeName}', 'User')`
+    ], {
+      encoding: 'utf8',
+      windowsHide: true,
+      stdio: ['ignore', 'pipe', 'ignore']
+    });
+    return output.trim().replace(/%([^%]+)%/g, (_, key) => process.env[key] || `%${key}%`);
+  } catch {
+    return '';
+  }
+}
+
+function configuredServiceRoot() {
+  return process.env.GPT_CHAT_HOME ||
+    process.env.GPT_CHAT_SERVICE_ROOT ||
+    readWindowsUserEnv('GPT_CHAT_HOME') ||
+    readWindowsUserEnv('GPT_CHAT_SERVICE_ROOT') ||
+    '';
+}
 
 function parseArgs(argv) {
   const args = {

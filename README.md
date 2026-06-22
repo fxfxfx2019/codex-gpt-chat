@@ -50,6 +50,8 @@ https://github.com/fxfxfx2019/codex-gpt-chat/tree/main/skills/gpt-chat-temp
 Set-Item Env:GPT_CHAT_HOME "C:\path\to\gpt-chat-service"
 ```
 
+Windows 下如果设置的是用户级环境变量，已打开的 Codex 进程可能不会自动继承；脚本会主动读取用户级 `GPT_CHAT_HOME`，因此通常不需要重启 Codex。
+
 详细说明见：
 
 - [中文使用说明](docs/USAGE.zh-CN.md)
